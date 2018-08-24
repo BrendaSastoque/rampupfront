@@ -12,7 +12,7 @@ pipeline {
 		}	
 
     		stage('test') {
-        
+        	echo "Testing"
         	}
 
 // The Deploy stage does not limit concurrency but requires manual input
