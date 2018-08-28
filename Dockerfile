@@ -1,5 +1,7 @@
 FROM node:8-alpine
 EXPOSE 3030
-#Poner una carpeta sobre la cual se vaya a hacer el RUN y el CMD
+ENV PORT=3030
+ENV BACKEND_URL=10.0.3.57:3000
+#averiguar si copia los archivos asl docjkerfile para poder correr el run y el cmd
 RUN npm install
 CMD ["npm", "start"]
