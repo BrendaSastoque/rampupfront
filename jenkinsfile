@@ -12,21 +12,21 @@ pipeline {
 			}     
 		}	
 
-    		stage('test') {
-			steps{
-				echo "Testing"
-			}
-        	}
+    		//stage('test') {
+		//	steps{
+		//		echo "Testing"
+		//	}
+        	//}
 
 // The Deploy stage does not limit concurrency but requires manual input
 // from a user. Several builds might reach this step waiting for input.
 // When a user promotes a specific build all preceding builds are aborted,
 // ensuring that the latest code is always deployed.
-		stage('Deploy') {
-			steps{
-        			echo "Deploying"
-			}
-		}
+		//stage('Deploy') {
+		//	steps{
+        	//		echo "Deploying"
+		//	}
+		//}
 	}
 }
 
