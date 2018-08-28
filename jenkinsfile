@@ -5,14 +5,17 @@ pipeline {
 	}
 	
 	stages {
-		stage('Build') {
-    		// The first milestone step starts tracking concurrent build order
-        	npm install
-		echo "Building"
+		stage('Build'){
+			steps{
+        			npm install
+				echo "Building"
+			}     
 		}	
 
     		stage('test') {
-        
+			steps{
+				echo "Testing"
+			}
         	}
 
 // The Deploy stage does not limit concurrency but requires manual input
@@ -20,7 +23,9 @@ pipeline {
 // When a user promotes a specific build all preceding builds are aborted,
 // ensuring that the latest code is always deployed.
 		stage('Deploy') {
-        	echo "Deploying"
+			steps{
+        			echo "Deploying"
+			}
 		}
 	}
 }
