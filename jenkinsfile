@@ -3,22 +3,30 @@ pipeline{
 	stages{
 		stage('Build'){
 			steps{
+				script{
 				frontimage = docker.build("brendasastoque/frontimg")
+				}
 				echo "Built"
 			}     
 		}
 		stage ('Test'){
 			steps {
-				frontimage.inside{
-				echo "Tests passed"
+				script{
+					frontimage.inside{
+					echo "Tests passed"
+					}
 				}
 				echo "Tested"
 			}
 		}
-		stage ('Push image'){
-			docker.withRegistry('https://registry.hub.docker.com','docker-hub-credentials'){
-			frontimage.push("${env.BUILD_NUMBER}")
-			frontimage.push("latest")
+		stage ('Deploy image'){
+			steps {
+				script {
+					docker.withRegistry('https://registry.hub.docker.com','docker-hub-credentials'){
+						frontimage.push("${env.BUILD_NUMBER}")
+						frontimage.push("latest")
+					}
+				}
 			}
 		}
 		stage ('Deploy'){
