@@ -6,6 +6,7 @@ pipeline{
 				script{
 				frontimage = docker.build("brendasastoque/frontimg")
 				}
+				pwd
 				echo "Built"
 			}     
 		}
