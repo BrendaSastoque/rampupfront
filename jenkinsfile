@@ -1,6 +1,9 @@
 pipeline {
 	agent {
-	dockerfile true
+		dockerfile{
+		filename 'Dockerfile'
+		label 'front-image'
+		}
 	}
 	
 	stages {
