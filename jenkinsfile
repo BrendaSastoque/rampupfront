@@ -1,21 +1,24 @@
-pipeline {
-	agent {
-		dockerfile{
-		filename 'Dockerfile'
-		label 'front-image'
-		}
-	}
-	
-	stages {
+pipeline{
+	agent any
+	stages{
 		stage('Build'){
 			steps{
-        			echo "Building"
-				//sh 'npm install'
+				frontimage = docker.build("brendasastoque/frontimg")
+				echo "Built"
 			}     
 		}
 		stage ('Test'){
 			steps {
-				echo "Testing"
+				frontimage.inside{
+				echo "Tests passed"
+				}
+				echo "Tested"
+			}
+		}
+		stage ('Push image'){
+			docker.withRegistry('https://registry.hub.docker.com','docker-hub-credentials'){
+			frontimage.push("${env.BUILD_NUMBER}")
+			frontimage.push("latest")
 			}
 		}
 		stage ('Deploy'){
