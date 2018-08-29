@@ -1,27 +1,25 @@
 pipeline {
-	agent any
-	tools {
-	nodejs "node"
+	agent {
+	dockerfile true
 	}
 	
 	stages {
-		stage('Build') {
-    		// The first milestone step starts tracking concurrent build order
-        	npm install
-		echo "Building"
-		}	
-
-    		stage('test') {
-        
-        	}
-
-// The Deploy stage does not limit concurrency but requires manual input
-// from a user. Several builds might reach this step waiting for input.
-// When a user promotes a specific build all preceding builds are aborted,
-// ensuring that the latest code is always deployed.
-		stage('Deploy') {
-        	echo "Deploying"
+		stage('Build'){
+			steps{
+        			echo "Building"
+				//sh 'npm install'
+			}     
 		}
+		stage ('Test'){
+			steps {
+				echo "Testing"
+			}
+		}
+		stage ('Deploy'){
+			steps {
+				echo "Deploying"
+			}
+		}	
 	}
 }
 
