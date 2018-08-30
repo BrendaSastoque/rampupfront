@@ -9,16 +9,6 @@ pipeline{
 				echo "Built"
 			}     
 		}
-		stage ('Test'){
-			steps {
-				script{
-					frontimage.inside{
-					echo "Tests passed"
-					}
-				}
-				echo "Tested"
-			}
-		}
 		stage ('Push image'){
 			steps {
 				script {
@@ -29,11 +19,17 @@ pipeline{
 				}
 			}
 		}
+		stage ('Test'){
+			steps {
+				echo "Tested"
+			}
+		}
 		stage ('Deploy'){
 			steps {
 				echo "Deploying"
 			}
-		}	
+		}
+		
 	}
 }
 
