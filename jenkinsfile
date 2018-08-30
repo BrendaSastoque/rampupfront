@@ -9,17 +9,7 @@ pipeline{
 				echo "Built"
 			}     
 		}
-		stage ('Test'){
-			steps {
-				script{
-					frontimage.inside{
-					echo "Tests passed"
-					}
-				}
-				echo "Tested"
-			}
-		}
-		stage ('Deploy image'){
+		stage ('Push image'){
 			steps {
 				script {
 					docker.withRegistry('https://registry.hub.docker.com','docker-hub-credentials'){
@@ -29,11 +19,17 @@ pipeline{
 				}
 			}
 		}
+		stage ('Test'){
+			steps {
+				echo "Tested"
+			}
+		}
 		stage ('Deploy'){
 			steps {
 				echo "Deploying"
 			}
-		}	
+		}
+		
 	}
 }
 
