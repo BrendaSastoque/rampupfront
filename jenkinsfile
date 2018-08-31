@@ -28,7 +28,8 @@ pipeline{
 			steps {
 				sshagent(credentials : ['key-ssh']){
 					sh 'ssh -o StrictHostKeyChecking=no ec2-user@ip-10-0-1-197 uptime'
-					sh 'ssh -v ec2-user@ip-10-0-1-107'
+					sh 'ssh -v ec2-user@ip-10-0-1-107 -p 22'
+
 				}
 				echo "Deployed"
 				
