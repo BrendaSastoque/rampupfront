@@ -26,7 +26,11 @@ pipeline{
 		}
 		stage ('Deploy'){
 			steps {
-				echo "Deploying"
+				sshagent(credentials : ['key-ssh']){
+					sh 'ssh -o StrictHostKeyChecking=no '
+				}
+				echo "Deployed"
+				
 			}
 		}
 		
