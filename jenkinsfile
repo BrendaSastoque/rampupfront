@@ -1,0 +1,35 @@
+pipeline{
+	agent any
+	stages{
+		stage('Build'){
+			steps{
+				script{
+				frontimage = docker.build("brendasastoque/frontimg")
+				}
+				echo "Built"
+			}     
+		}
+		stage ('Push image'){
+			steps {
+				script {
+					docker.withRegistry('https://registry.hub.docker.com','docker-hub-credentials'){
+						frontimage.push("${env.BUILD_NUMBER}")
+						frontimage.push("latest")
+					}
+				}
+			}
+		}
+		stage ('Test'){
+			steps {
+				echo "Tested"
+			}
+		}
+		stage ('Deploy'){
+			steps {
+				echo "Deploying"
+			}
+		}
+		
+	}
+}
+
