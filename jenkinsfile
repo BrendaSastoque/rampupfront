@@ -27,9 +27,7 @@ pipeline{
 		stage ('Deploy'){
 			steps {
 				sshagent(credentials : ['key-ssh']){
-					sh 'ssh -o StrictHostKeyChecking=no ec2-user@ip-10-0-1-197 uptime'
-					sh 'ssh -v ec2-user@ip-10-0-1-107 -p 22'
-					sh 'docker run -p 3030:3030 -d registry.hub.docker.com/brendasastoque/frontimg'
+					sh "ssh -v -o StrictHostKeyChecking=no ec2-user@ip-10-0-1-197 'uptime, -p 22', 'docker run -p 3030:3030 -d registry.hub.docker.com/brendasastoque/frontimg'"
 				}
 				echo "Deployed"
 				
