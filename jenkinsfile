@@ -28,7 +28,7 @@ pipeline{
 			steps {
 				sshagent(credentials : ['key-ssh']){
 					sh 'ssh-add -l'
-					sh "ssh -v -o StrictHostKeyChecking=no ec2-user@ip-10-0-1-197 'docker stop confront' 'docker rm confront' 'docker run --name confront -p 3030:3030 -d registry.hub.docker.com/brendasastoque/frontimg -name confront'"
+					sh "ssh -v -o StrictHostKeyChecking=no ec2-user@ip-10-0-1-197 'docker stop confront' 'docker rm confront' 'docker run --name confront -p 3030:3030 -d registry.hub.docker.com/brendasastoque/frontimg'"
 				}
 					echo "Deployed"
 				
