@@ -4,7 +4,7 @@ pipeline{
 		stage('Build'){
 			steps{
 				script{
-				frontimage = docker.build("brendasastoque/frontimg" -t frontimg)
+				frontimage = docker.build("brendasastoque/frontimg")
 				}
 				echo "Built"
 			}     
