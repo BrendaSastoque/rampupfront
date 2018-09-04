@@ -1,27 +1,39 @@
-pipeline {
+pipeline{
 	agent any
-	tools {
-	nodejs "node"
-	}
-	
-	stages {
-		stage('Build') {
-    		// The first milestone step starts tracking concurrent build order
-        	npm install
-		echo "Building"
-		}	
-
-    		stage('test') {
-        
-        	}
-
-// The Deploy stage does not limit concurrency but requires manual input
-// from a user. Several builds might reach this step waiting for input.
-// When a user promotes a specific build all preceding builds are aborted,
-// ensuring that the latest code is always deployed.
-		stage('Deploy') {
-        	echo "Deploying"
+	stages{
+		stage('Build'){
+			steps{
+				script{
+				frontimage = docker.build("brendasastoque/frontimg")
+				}
+				echo "Built"
+			}     
 		}
+		stage ('Push image'){
+			steps {
+				script {
+					docker.withRegistry('https://registry.hub.docker.com','docker-hub-credentials'){
+						frontimage.push("${env.BUILD_NUMBER}")
+						frontimage.push("latest")
+					}
+				}
+			}
+		}
+		stage ('Test'){
+			steps {
+				echo "Tested"
+			}
+		}
+		stage ('Deploy'){
+			steps {
+				sshagent(credentials : ['key-ssh']){
+					sh "ssh -v -o StrictHostKeyChecking=no ec2-user@ip-10-0-1-197 'docker stop confront ; docker rm confront ; docker rmi registry.hub.docker.com/brendasastoque/frontimg ; docker run --name confront -p 3030:3030 -d registry.hub.docker.com/brendasastoque/frontimg'"
+					sh "ssh -v -o StrictHostKeyChecking=no ec2-user@ip-10-0-2-149 'docker stop confront ; docker rm confront ; docker rmi registry.hub.docker.com/brendasastoque/frontimg ; docker run --name confront -p 3030:3030 -d registry.hub.docker.com/brendasastoque/frontimg'"
+				}
+					echo "Deployed"
+				
+			}
+		}
+		
 	}
 }
-
